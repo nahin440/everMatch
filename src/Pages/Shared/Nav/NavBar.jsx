@@ -1,16 +1,27 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { AwesomeButton } from 'react-awesome-button';
 import 'react-awesome-button/dist/styles.css';
-import './NavBar.css'
+import './NavBar.css';
+import { AuthContext } from "../../../Providers/AuthProvier";
 
 const NavBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const isLoggedIn = false; // Replace this with your authentication logic
+  const { user, logOut } = useContext(AuthContext); // Destructure logOut from AuthContext
+
+  const handleLogOut = () => {
+    logOut()
+      .then(() => {
+        console.log("Successfully logged out");
+      })
+      .catch((error) => {
+        console.error("Error during logout:", error);
+      });
+  };
 
   return (
     <nav className="bg-[#261319]/90 z-50 fixed left-0 right-0 top-0 font-bold text-[#FBF5E5]">
-      <div className=" mx-auto flex items-center justify-evenly p-2">
+      <div className="mx-auto flex items-center justify-evenly p-2">
         {/* Logo and Website Name */}
         <div className="flex items-center">
           <span className="text-xl font-bold">EverMatch</span>
@@ -18,33 +29,32 @@ const NavBar = () => {
 
         {/* Links (Desktop View) */}
         <div className="hidden md:flex space-x-6">
-          <Link to="/" className="hover:text-[#C890A7]">
-            Home
-          </Link>
-          <Link to="/biodatas" className="hover:text-[#C890A7]">
-            Biodatas
-          </Link>
-          <Link to="/about-us" className="hover:text-[#C890A7]">
-            About Us
-          </Link>
-          <Link to="/contact-us" className="hover:text-[#C890A7]">
-            Contact Us
-          </Link>
+          <Link to="/" className="hover:text-[#C890A7]">Home</Link>
+          <Link to="/biodatas" className="hover:text-[#C890A7]">Biodatas</Link>
+          <Link to="/about-us" className="hover:text-[#C890A7]">About Us</Link>
+          <Link to="/contact-us" className="hover:text-[#C890A7]">Contact Us</Link>
         </div>
 
         <div className="hidden md:block">
-          {isLoggedIn ? (
-            <Link to="/dashboard" className="hover:text-[#C890A7]">
-              Dashboard
-            </Link>
+          {user?.email ? (
+            <div className="flex justify-center gap-4">
+              <Link
+                to="/dashboard"
+                className="block px-4 py-2 hover:bg-[#A35C7A]"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Dashboard
+              </Link>
+              <button
+                onClick={handleLogOut}
+                className="block px-4 py-2 hover:bg-[#A35C7A]"
+              >
+                LogOut
+              </button>
+            </div>
           ) : (
-            <AwesomeButton className="text-[#FBF5E5] rounded-md shadow-lg  px-4 py-2 bg-[#FBF5E5] aws-button " > 
-            <Link
-              to="/login"
-              className="text-[#261319]"
-            >
-              Login
-            </Link>
+            <AwesomeButton className="text-[#FBF5E5] rounded-md shadow-lg px-4 py-2 bg-[#FBF5E5] aws-button">
+              <Link to="/login" className="text-[#261319]">Login</Link>
             </AwesomeButton>
           )}
         </div>
@@ -106,14 +116,22 @@ const NavBar = () => {
           >
             Contact Us
           </Link>
-          {isLoggedIn ? (
-            <Link
-              to="/dashboard"
-              className="block px-4 py-2 hover:bg-[#A35C7A]"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Dashboard
-            </Link>
+          {user?.email ? (
+            <div>
+              <Link
+                to="/dashboard"
+                className="block px-4 py-2 hover:bg-[#A35C7A]"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Dashboard
+              </Link>
+              <button
+                onClick={handleLogOut}
+                className="block px-4 py-2 hover:bg-[#A35C7A]"
+              >
+                LogOut
+              </button>
+            </div>
           ) : (
             <Link
               to="/login"
