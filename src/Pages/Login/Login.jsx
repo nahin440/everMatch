@@ -1,15 +1,19 @@
 import { motion } from 'framer-motion';
 import 'animate.css';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useState, useContext } from 'react';// Adjust the path based on your project structure
 import { AuthContext } from '../../Providers/AuthProvier';
 import Swal from 'sweetalert2';
 
 const Login = () => {
     const [error, setError] = useState('');
-    const { loginUser,googleSignIn } = useContext(AuthContext); // Access loginUser from AuthContext
+    const { loginUser,googleSignIn } = useContext(AuthContext);
 
-    const navigate = useNavigate()
+    const location = useLocation();
+    const from = location.state?.from?.pathname || '/';
+    console.log(location.state);
+
+    const navigate = useNavigate();
 
     const handleLogin = (e) => {
         e.preventDefault();
@@ -30,7 +34,7 @@ const Login = () => {
             .then((result) => {
                 const loggedInUser = result.user;
                 console.log('Login successful:', loggedInUser);
-                navigate('/')
+                navigate(from)
                 form.reset(); // Clear the form on success
             })
             .catch((err) => {
@@ -46,7 +50,7 @@ const Login = () => {
         googleSignIn()
           .then((result) => {
             Swal.fire('Success', 'Logged in with Google!', 'success');
-            navigate(location?.state ? location.state : '/');
+            navigate(from);
           })
           .catch((error) => {
             Swal.fire('Error', error.message, 'error');

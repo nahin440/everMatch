@@ -31,8 +31,8 @@ const NavBar = () => {
         <div className="hidden md:flex space-x-6">
           <Link to="/" className="hover:text-[#C890A7]">Home</Link>
           <Link to="/biodatas" className="hover:text-[#C890A7]">Biodatas</Link>
-          <Link to="/about-us" className="hover:text-[#C890A7]">About Us</Link>
-          <Link to="/contact-us" className="hover:text-[#C890A7]">Contact Us</Link>
+          <Link to="/about" className="hover:text-[#C890A7]">About Us</Link>
+          <Link to="/contact" className="hover:text-[#C890A7]">Contact Us</Link>
         </div>
 
         <div className="hidden md:block">
@@ -53,9 +53,11 @@ const NavBar = () => {
               </button>
             </div>
           ) : (
+            <Link to="/login"> 
             <AwesomeButton className="text-[#FBF5E5] rounded-md shadow-lg px-4 py-2 bg-[#FBF5E5] aws-button">
-              <Link to="/login" className="text-[#261319]">Login</Link>
+              <button className="text-[#261319]">Login</button>
             </AwesomeButton>
+            </Link>
           )}
         </div>
 
@@ -103,14 +105,14 @@ const NavBar = () => {
             Biodatas
           </Link>
           <Link
-            to="/about-us"
+            to="/about"
             className="block px-4 py-2 hover:bg-[#A35C7A]"
             onClick={() => setIsMenuOpen(false)}
           >
             About Us
           </Link>
           <Link
-            to="/contact-us"
+            to="/contact"
             className="block px-4 py-2 hover:bg-[#A35C7A]"
             onClick={() => setIsMenuOpen(false)}
           >

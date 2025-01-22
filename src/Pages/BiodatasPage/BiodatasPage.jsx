@@ -1,9 +1,12 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { FaHeart } from 'react-icons/fa';
+import UseAuth from '../../Hooks/UseAuth';
+import Swal from 'sweetalert2';
 
 const BiodatasPage = () => {
+    const { user } = UseAuth();
     const [biodatas, setBiodatas] = useState([]);
     const [filteredBiodatas, setFilteredBiodatas] = useState([]);
     const [filters, setFilters] = useState({
@@ -15,6 +18,7 @@ const BiodatasPage = () => {
 
     const divisions = ['Dhaka', 'Chittagong', 'Rangpur', 'Barisal', 'Khulna', 'Mymensingh', 'Sylhet'];
     const navigate = useNavigate();
+    const location = useLocation();
 
     // Fetch biodatas using Axios
     useEffect(() => {
@@ -68,6 +72,38 @@ const BiodatasPage = () => {
         navigate(`/biodata/${id}`); // Navigate to private profile page
     };
 
+    const handleFavourite = (biodata) => {
+        if(user && user.email){
+            // console.log(biodata._id)
+
+            const favouriteBiodata = {
+                biodataId: biodata._id,
+                email: user.email,
+                name: biodata.Name,
+                image: biodata.ProfileImage,
+                biodataType: biodata.BiodataType,
+                age: biodata.Age,
+                Occupation: biodata.Occupation,
+            }
+        }
+        else {
+            Swal.fire({
+                title: "You are not logged in",
+                text: "Please Login to Add to favourite",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Login"
+              }).then((result) => {
+                if (result.isConfirmed) {
+                //   send the user to login page
+                navigate('/login',{state : {from : location}})
+                }
+              });
+        }
+    };
+
     return (
         <div className="py-20 mx-5 md:mx-16 lg:mx-24">
             {/* Toggle Filter Button for Small Devices */}
@@ -81,8 +117,8 @@ const BiodatasPage = () => {
             <div className="flex flex-col md:flex-row">
                 {/* Filter Sidebar */}
                 <aside
-                    className={`fixed top-0 left-0 h-full w-64 bg-[#ffffff]/80 p-4 z-10 transform ${isFilterOpen ? 'translate-x-0' : '-translate-x-full'
-                        } transition-transform  md:translate-x-0 md:sticky md:top-20`}
+                    className={`fixed top-0 left-0 h-full w-64 bg-[#ffffff] px-4 pb-4 pt-16 z-30 transform ${isFilterOpen ? 'translate-x-0' : '-translate-x-full'
+                        } transition-transform md:translate-x-0 md:sticky md:top-20`}
                 >
                     <div className="flex justify-between items-center mb-4">
                         <h2 className="text-xl font-bold">Filters</h2>
@@ -151,11 +187,10 @@ const BiodatasPage = () => {
                     </div>
                 </aside>
 
-
                 {/* Overlay for Sidebar on Small Screens */}
                 {isFilterOpen && (
                     <div
-                        className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden"
+                        className="fixed inset-0 bg-black bg-opacity-50 z-20 md:hidden"
                         onClick={() => setIsFilterOpen(false)}
                     ></div>
                 )}
@@ -169,17 +204,21 @@ const BiodatasPage = () => {
                                 key={biodata.IndexId}
                                 className="border p-4 rounded shadow hover:shadow-lg transition"
                             >
-                                <div className='flex justify-between items-start'>
-                                    <div className='flex items-center justify-evenly ' >
-                                    <img
-                                        src={biodata.ProfileImage}
-                                        alt={biodata.Name}
-                                        className=" rounded-full h-24 w-24  object-cover  mb-4"
-                                    />
-                                    <p className='text-left ' > Bio-Data No : {biodata.IndexId} </p>
+                                <div className="flex justify-between items-start">
+                                    <div className="flex items-center justify-evenly">
+                                        <img
+                                            src={biodata.ProfileImage}
+                                            alt={biodata.Name}
+                                            className="rounded-full h-24 w-24 object-cover mb-4"
+                                        />
+                                        <p className="text-left">Bio-Data No : {biodata.IndexId}</p>
                                     </div>
-                                    <button className='text-right  text-3xl text-[#212121]' > <FaHeart></FaHeart> </button>
-
+                                    <button
+                                        onClick={() => handleFavourite(biodata)}
+                                        className="text-right text-3xl text-[#212121] hover:text-[#7e3f3f]"
+                                    >
+                                        <FaHeart />
+                                    </button>
                                 </div>
                                 <h3 className="text-lg font-bold mb-4 text-left">{biodata.Name}</h3>
                                 <table className="w-full border-collapse border border-gray-300">
@@ -216,8 +255,6 @@ const BiodatasPage = () => {
                         ))}
                     </div>
                 </main>
-
-
             </div>
         </div>
     );

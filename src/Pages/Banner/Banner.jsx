@@ -26,7 +26,7 @@ const Banner = () => {
   ];
 
   return (
-    <div className="py-[44px] md:py-[62px]  bg-[#FBF5E5]">
+    <div className="py-[44px] md:py-[54px]  bg-[#FBF5E5]">
       <AwesomeSlider className="h-[70vh] w-full">
         {slides.map((slide, index) => (
           <div key={index} className="h-full w-full relative">
