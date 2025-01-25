@@ -4,11 +4,17 @@ import axios from 'axios';
 import { FaHeart } from 'react-icons/fa';
 import UseAuth from '../../Hooks/UseAuth';
 import Swal from 'sweetalert2';
+import useAxiosSecure from '../../Hooks/useAxiosSecure';
 
 const BiodatasPage = () => {
     const { user } = UseAuth();
     const [biodatas, setBiodatas] = useState([]);
     const [filteredBiodatas, setFilteredBiodatas] = useState([]);
+
+    const axiosSecure = useAxiosSecure()
+
+
+
     const [filters, setFilters] = useState({
         ageRange: [0, 100],
         type: '',
@@ -73,7 +79,7 @@ const BiodatasPage = () => {
     };
 
     const handleFavourite = (biodata) => {
-        if(user && user.email){
+        if (user && user.email) {
             // console.log(biodata._id)
 
             const favouriteBiodata = {
@@ -84,7 +90,25 @@ const BiodatasPage = () => {
                 biodataType: biodata.BiodataType,
                 age: biodata.Age,
                 Occupation: biodata.Occupation,
+                PermanentDivision : biodata.PermanentDivision,
             }
+
+            axiosSecure.post('favourites', favouriteBiodata)
+                .then(res => {
+                    console.log(res.data)
+                    if (res.data.insertedId) {
+                        Swal.fire({
+                            position: "top-center",
+                            icon: "success",
+                            title: `Biodata of ${biodata.Name} added to your favourite list`,
+                            showConfirmButton: false,
+                            timer: 2000
+                        });
+                    }
+                })
+
+
+
         }
         else {
             Swal.fire({
@@ -95,12 +119,12 @@ const BiodatasPage = () => {
                 confirmButtonColor: "#3085d6",
                 cancelButtonColor: "#d33",
                 confirmButtonText: "Login"
-              }).then((result) => {
+            }).then((result) => {
                 if (result.isConfirmed) {
-                //   send the user to login page
-                navigate('/login',{state : {from : location}})
+                    //   send the user to login page
+                    navigate('/login', { state: { from: location } })
                 }
-              });
+            });
         }
     };
 
