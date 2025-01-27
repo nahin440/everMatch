@@ -3,11 +3,12 @@ import 'animate.css';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useState, useContext } from 'react';// Adjust the path based on your project structure
 import { AuthContext } from '../../Providers/AuthProvier';
-import Swal from 'sweetalert2';
+import GoogleLogin from '../../firebase/googleLogin';
+// import Swal from 'sweetalert2';
 
 const Login = () => {
     const [error, setError] = useState('');
-    const { loginUser,googleSignIn } = useContext(AuthContext);
+    const { loginUser } = useContext(AuthContext);
 
     const location = useLocation();
     const from = location.state?.from?.pathname || '/';
@@ -46,16 +47,6 @@ const Login = () => {
 
 
 
-    const handleGoogleLogin = () => {
-        googleSignIn()
-          .then((result) => {
-            Swal.fire('Success', 'Logged in with Google!', 'success');
-            navigate(from);
-          })
-          .catch((error) => {
-            Swal.fire('Error', error.message, 'error');
-          });
-      };
 
 
 
@@ -121,14 +112,7 @@ const Login = () => {
 
                 <hr />
 
-                <div>
-                    <button
-                        className="w-full py-2 px-4 bg-[#261319] text-white font-medium rounded-md hover:bg-[#212121] transition-colors"
-                        onClick={handleGoogleLogin}
-                    >
-                        Login with Google
-                    </button>
-                </div>
+                <GoogleLogin></GoogleLogin>
                 <p className="text-center text-sm text-[#261319] mt-4">
                     Do not have an account?{' '}
                     <Link to="/register" className="text-[#261319] hover:underline">

@@ -1,10 +1,15 @@
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import UseAuth from "../Hooks/UseAuth";
-import { FaEdit, FaEye, FaHeart, FaHome, FaUser } from "react-icons/fa";
+import { FaAddressBook, FaCheckCircle, FaCog, FaEdit, FaEye, FaHeart, FaHome, FaUser, FaUsers } from "react-icons/fa";
 import { IoLogOut } from "react-icons/io5";
 
 const Dashboard = () => {
+
+    // TODO get admin from database
+    const isAdmin = true;
+
+
     const [isSidebarOpen, setSidebarOpen] = useState(false);
 
     const { logOut } = UseAuth()
@@ -17,17 +22,17 @@ const Dashboard = () => {
 
 
     //  const { user, logOut } = useContext(AuthContext); // Destructure logOut from AuthContext
-    
-      const handleLogOut = () => {
+
+    const handleLogOut = () => {
         logOut()
-          .then(() => {
-            console.log("Successfully logged out");
-            navigate('/')
-          })
-          .catch((error) => {
-            console.error("Error during logout:", error);
-          });
-      };
+            .then(() => {
+                console.log("Successfully logged out");
+                navigate('/')
+            })
+            .catch((error) => {
+                console.error("Error during logout:", error);
+            });
+    };
     return (
         <div className="grid md:grid-cols-12 min-h-screen bg-[#fffbf1]  ">
             {/* Sidebar */}
@@ -43,28 +48,72 @@ const Dashboard = () => {
                 </button>
                 <h2 className="text-lg font-bold mb-4">Dashboard Menu</h2>
                 <ul>
-                    <li className="mb-2 hover:bg-[#42202b] rounded p-2">
-                        <NavLink to="/"  className="flex justify-start gap-2 items-center "  > <FaHome></FaHome> Home</NavLink>
-                    </li>
-                    <li className="mb-2 hover:bg-[#42202b] rounded p-2">
-                        <NavLink to="/dashboard/edit" className="flex justify-start gap-2 items-center " > <FaEdit></FaEdit> Edit Biodata
 
-                        </NavLink>
+                    {
+                        isAdmin ?
+
+                            <>
+
+                                <li className="mb-2 hover:bg-[#42202b] rounded p-2">
+                                    <NavLink to="/dashboard/adminDashboard" className="flex justify-start gap-2 items-center">
+                                        <FaEdit className="text-lg" /> Admin Dashboard
+                                    </NavLink>
+                                </li>
+                                <li className="mb-2 hover:bg-[#42202b] rounded p-2">
+                                    <NavLink to="/dashboard/users" className="flex justify-start gap-2 items-center">
+                                        <FaUsers className="text-lg" /> Manage Users
+                                    </NavLink>
+                                </li>
+                                <li className="mb-2 hover:bg-[#42202b] rounded p-2">
+                                    <NavLink to="/dashboard/approvedPremium" className="flex justify-start gap-2 items-center">
+                                        <FaCheckCircle className="text-lg" /> Approved Premium
+                                    </NavLink>
+                                </li>
+                                <li className="mb-2 hover:bg-[#42202b] rounded p-2">
+                                    <NavLink to="/dashboard/approvedContact" className="flex justify-start gap-2 items-center">
+                                        <FaAddressBook className="text-lg" /> Approved Contact Request
+                                    </NavLink>
+                                </li>
+
+
+                            </>
+
+                            :
+
+                            <>
+                                <li className="mb-2 hover:bg-[#42202b] rounded p-2">
+                                    <NavLink to="/dashboard/edit" className="flex justify-start gap-2 items-center " > <FaEdit></FaEdit> Edit Biodata
+
+                                    </NavLink>
+                                </li>
+                                <li className="mb-2 hover:bg-[#42202b] rounded p-2">
+                                    <NavLink to="/dashboard/profile" className="flex justify-start gap-2 items-center "    > <FaEye></FaEye> View Biodata
+                                    </NavLink>
+                                </li>
+                                <li className="mb-2 hover:bg-[#42202b] rounded p-2">
+                                    <NavLink to="/dashboard/settings " className="flex justify-start gap-2 items-center "  > <FaUser></FaUser> My Contact Request </NavLink>
+                                </li>
+                                <li className="mb-2 hover:bg-[#42202b] rounded p-2">
+                                    <NavLink to="/dashboard/favourites" className="flex justify-start gap-2 items-center "  > <FaHeart></FaHeart> Favourites Biodata
+                                    </NavLink>
+                                </li>
+                            </>
+                    }
+
+
+
+
+                    <div className="border w-full border-white my-5"></div>
+
+
+
+
+                    <li className="mb-2 hover:bg-[#42202b] rounded p-2">
+                        <NavLink to="/" className="flex justify-start gap-2 items-center "  > <FaHome></FaHome> Home</NavLink>
                     </li>
                     <li className="mb-2 hover:bg-[#42202b] rounded p-2">
-                        <NavLink to="/dashboard/profile"  className="flex justify-start gap-2 items-center "    > <FaEye></FaEye> View Biodata
-                        </NavLink>
-                    </li>
-                    <li className="mb-2 hover:bg-[#42202b] rounded p-2">
-                        <NavLink to="/dashboard/settings "  className="flex justify-start gap-2 items-center "  > <FaUser></FaUser> My Contact Request </NavLink>
-                    </li>
-                    <li className="mb-2 hover:bg-[#42202b] rounded p-2">
-                        <NavLink to="/dashboard/favourites"  className="flex justify-start gap-2 items-center "  > <FaHeart></FaHeart> Favourites Biodata
-                        </NavLink>
-                    </li>
-                    <li className="mb-2 hover:bg-[#42202b] rounded p-2">
-                        <button onClick={handleLogOut}  className="flex justify-start gap-2 items-center "  > <IoLogOut className="font-extrabold text-xl" ></IoLogOut> Logout
-                            {/* TODO button logout */}
+                        <button onClick={handleLogOut} className="flex justify-start gap-2 items-center "  > <IoLogOut className="font-extrabold text-xl" ></IoLogOut> Logout
+
                         </button>
                     </li>
                 </ul>

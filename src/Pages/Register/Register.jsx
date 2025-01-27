@@ -4,11 +4,15 @@ import 'animate.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../Providers/AuthProvier';
 import {  toast } from 'react-toastify';
-import Swal from 'sweetalert2';
+// import Swal from 'sweetalert2';
+import UseAxiosPublic from '../../Hooks/UseAxiosPublic';
+import GoogleLogin from '../../firebase/googleLogin';
 
 const Register = () => {
-    const { createUser,setUser,googleSignIn } = useContext(AuthContext); // Access createUser from AuthProvider
+    const { createUser,setUser } = useContext(AuthContext); // Access createUser from AuthProvider
     const [error, setErrors] = useState('');
+
+    const axiosPublic = UseAxiosPublic();
 
     const navigate = useNavigate()
 
@@ -37,9 +41,30 @@ const Register = () => {
 
         createUser(email, password)
             .then((result) => {
+                
                 const user = result.user;
                 setUser({ ...user, displayName: name, photoURL }); // Set user with additional details
-                toast.success('Registration successful! 🎉', {
+
+                const addUser = ({...user,displayName: name ,photoURL})
+                
+                axiosPublic.post('/users',addUser)
+                .then(res => {
+
+                    toast.success('Registration successful and User Added to ta data base! 🎉', {
+                        position: 'top-center',
+                        autoClose: 2000, // Auto close after 2 seconds
+                    });
+
+                    if(res.data.insertedId){
+                        toast.success('Registration successful and User Added to ta data base! 🎉', {
+                            position: 'top-center',
+                            autoClose: 2000, // Auto close after 2 seconds
+                        });
+                    }
+                   
+
+                })
+                toast.success('Registration successful and User Added to ta data base! 🎉', {
                     position: 'top-center',
                     autoClose: 2000, // Auto close after 2 seconds
                 });
@@ -56,16 +81,19 @@ const Register = () => {
 
 
 
-    const handleGoogleLogin = () => {
-            googleSignIn()
-              .then((result) => {
-                Swal.fire('Success', 'Logged in with Google!', 'success');
-                navigate(location?.state ? location.state : '/');
-              })
-              .catch((error) => {
-                Swal.fire('Error', error.message, 'error');
-              });
-          };
+    // const handleGoogleLogin = () => {
+    //         googleSignIn()
+            
+    //           .then((result) => {
+    //             Swal.fire('Success', 'Logged in with Google!', 'success');
+    //             navigate(location?.state ? location.state : '/');
+    //           })
+    //           .catch((error) => {
+    //             Swal.fire('Error', error.message, 'error');
+    //           });
+
+              
+    //       };
 
 
 
@@ -150,14 +178,7 @@ const Register = () => {
 
                 <hr />
 
-                <div className="mt-4">
-                    <button
-                        className="w-full py-2 px-4 bg-[#261319] text-white font-medium rounded-md hover:bg-[#212121] transition-colors"
-                        onClick={handleGoogleLogin}
-                    >
-                        Login with Google
-                    </button>
-                </div>
+                <GoogleLogin></GoogleLogin>
 
                 <p className="text-center text-sm text-[#261319] mt-4">
                     Already have an account?{' '}
