@@ -11,6 +11,8 @@ import ContactUs from "../Pages/ContactUs/ContactUs";
 import Dashboard from "../Layout/Dashboard";
 import Favourites from "../Pages/favourites/Favourites";
 import EditBiodata from "../Pages/EditBiodata/EditBiodata";
+import BiodataView from "../Pages/BiodataView/BiodataView";
+import DashboardHome from "../Pages/DashboardHome/DashboardHome";
 
 
 export const router = createBrowserRouter([
@@ -50,10 +52,7 @@ export const router = createBrowserRouter([
     element: <Dashboard></Dashboard>,
     children: [
       
-      {
-        path: 'dashboard',
-        element: <Dashboard></Dashboard>
-      },
+      
       {
         path: 'favourites',
         element: <Favourites></Favourites>
@@ -61,6 +60,10 @@ export const router = createBrowserRouter([
       {
         path: 'edit',
         element: <EditBiodata></EditBiodata>
+      },
+      {
+        path: 'profile',
+        element: <BiodataView></BiodataView>
       },
       
     ]

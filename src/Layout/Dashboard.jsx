@@ -1,18 +1,33 @@
-import { Link, Outlet } from "react-router-dom";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { useState } from "react";
-// import UseAuth from "../Hooks/UseAuth";
+import UseAuth from "../Hooks/UseAuth";
 import { FaEdit, FaEye, FaHeart, FaHome, FaUser } from "react-icons/fa";
 import { IoLogOut } from "react-icons/io5";
 
 const Dashboard = () => {
     const [isSidebarOpen, setSidebarOpen] = useState(false);
 
-    // const { user } = UseAuth()
+    const { logOut } = UseAuth()
+
+    const navigate = useNavigate()
 
     const toggleSidebar = () => {
         setSidebarOpen(!isSidebarOpen);
     };
 
+
+    //  const { user, logOut } = useContext(AuthContext); // Destructure logOut from AuthContext
+    
+      const handleLogOut = () => {
+        logOut()
+          .then(() => {
+            console.log("Successfully logged out");
+            navigate('/')
+          })
+          .catch((error) => {
+            console.error("Error during logout:", error);
+          });
+      };
     return (
         <div className="grid md:grid-cols-12 min-h-screen bg-[#fffbf1]  ">
             {/* Sidebar */}
@@ -29,26 +44,26 @@ const Dashboard = () => {
                 <h2 className="text-lg font-bold mb-4">Dashboard Menu</h2>
                 <ul>
                     <li className="mb-2 hover:bg-[#42202b] rounded p-2">
-                        <Link to="/"  className="flex justify-start gap-2 items-center "  > <FaHome></FaHome> Home</Link>
+                        <NavLink to="/"  className="flex justify-start gap-2 items-center "  > <FaHome></FaHome> Home</NavLink>
                     </li>
                     <li className="mb-2 hover:bg-[#42202b] rounded p-2">
-                        <Link to="/dashboard/edit" className="flex justify-start gap-2 items-center " > <FaEdit></FaEdit> Edit Biodata
+                        <NavLink to="/dashboard/edit" className="flex justify-start gap-2 items-center " > <FaEdit></FaEdit> Edit Biodata
 
-                        </Link>
+                        </NavLink>
                     </li>
                     <li className="mb-2 hover:bg-[#42202b] rounded p-2">
-                        <Link to="/dashboard/profile"  className="flex justify-start gap-2 items-center "    > <FaEye></FaEye> View Biodata
-                        </Link>
+                        <NavLink to="/dashboard/profile"  className="flex justify-start gap-2 items-center "    > <FaEye></FaEye> View Biodata
+                        </NavLink>
                     </li>
                     <li className="mb-2 hover:bg-[#42202b] rounded p-2">
-                        <Link to="/dashboard/settings "  className="flex justify-start gap-2 items-center "  > <FaUser></FaUser> My Contact Request </Link>
+                        <NavLink to="/dashboard/settings "  className="flex justify-start gap-2 items-center "  > <FaUser></FaUser> My Contact Request </NavLink>
                     </li>
                     <li className="mb-2 hover:bg-[#42202b] rounded p-2">
-                        <Link to="/dashboard/favourites"  className="flex justify-start gap-2 items-center "  > <FaHeart></FaHeart> Favourites Biodata
-                        </Link>
+                        <NavLink to="/dashboard/favourites"  className="flex justify-start gap-2 items-center "  > <FaHeart></FaHeart> Favourites Biodata
+                        </NavLink>
                     </li>
                     <li className="mb-2 hover:bg-[#42202b] rounded p-2">
-                        <button  className="flex justify-start gap-2 items-center "  > <IoLogOut className="font-extrabold text-xl" ></IoLogOut> Logout
+                        <button onClick={handleLogOut}  className="flex justify-start gap-2 items-center "  > <IoLogOut className="font-extrabold text-xl" ></IoLogOut> Logout
                             {/* TODO button logout */}
                         </button>
                     </li>

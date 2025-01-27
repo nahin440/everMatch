@@ -39,7 +39,7 @@ const NavBar = () => {
           {user?.email ? (
             <div className="flex justify-center gap-4">
               <Link
-                to="/dashboard"
+                to="/dashboard/edit"
                 className="block px-4 py-2 hover:bg-[#A35C7A]"
                 onClick={() => setIsMenuOpen(false)}
               >
