@@ -1,8 +1,19 @@
-# React + Vite
+# Shadii.com
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## its a site where user can find their spous or soulmate by their category . its a very user friendly sitev wehre i make both user and admin dashboard panel and functionality ....
 
-Currently, two official plugins are available:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+I used Some latest tecnohologyu:
+
+- tailwind , material UI, flowbite 
+- react js
+- many react third party liabrary 
+- mongo db for database
+- firebase for auth and jwt for server authentication
+
+
+
+live link: 
+https://creative-starship-dcc9e7.netlify.app/
+
+
