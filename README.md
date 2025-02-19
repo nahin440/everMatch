@@ -6,15 +6,15 @@ BD Matrimony is a modern web platform built using the MERN stack (MongoDB, Expre
 ---
 
 ## Live Demo 🌐
-[Live Demo Link](https://bd-matrimony.netlify.app/)
+[Live Demo Link](https://evermatch-bc19c.web.app)
 
 ---
 
 # User Roles
 
 ### Admin
-- **Email:** ``` admin@example.com```
-- **Password:** ```abd123ABC```
+- **Email:** ```nahin@gmail.com```
+- **Password:** ```Nahin366882```
 
 ---
 
