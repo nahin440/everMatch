@@ -1,4 +1,4 @@
-# BD Matrimony 🌸
+# EverMatch 🌸
 ---
 ## Project Overview
 BD Matrimony is a modern web platform built using the MERN stack (MongoDB, Express, React, Node.js). The platform is designed to connect individuals seeking life partners, providing an intuitive and user-friendly interface tailored for the Bangladeshi community.
