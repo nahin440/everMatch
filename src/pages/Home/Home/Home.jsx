@@ -2,12 +2,14 @@ import React from 'react';
 import Navbar from '../../../Shared/Navbar/Navbar';
 
 import SuccessCounter from '../../../components/SuccessCounter';
-import SuccessStory from '../../../components/SuccessStory';
+// import SuccessStory from '../../../components/SuccessStory';
 import HowWork from '../HowWork';
 import PremiumMembers from './PremiumMembers';
 import SuccessStorySection from '../../../components/SuccessStorySection';
 import SuccessCounterSection from '../../../components/SuccessCounterSection';
 import { NavLink } from 'react-router-dom';
+import HomeSections from '../HomeSection';
+import SuccessStory from '../../../components/SuccessStorySection';
 // import Banner from '../../../../public/Banner.PNG'; // Adjust the path if necessary
 
 const Home = () => {
@@ -44,7 +46,8 @@ const Home = () => {
       <PremiumMembers></PremiumMembers>
       <HowWork></HowWork>
       <SuccessCounterSection></SuccessCounterSection>
-      <SuccessStorySection></SuccessStorySection>
+      <SuccessStory></SuccessStory>
+      <HomeSections></HomeSections>
     </div>
   );
 };
